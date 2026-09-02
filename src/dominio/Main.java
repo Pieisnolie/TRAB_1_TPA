@@ -376,5 +376,5 @@ public class Main {
         System.out.println(
                 "Contato alterado com sucesso."
         );
-        }
     }
+}
