@@ -157,10 +157,12 @@ public class Main {
                             + " contatos carregados."
             );
 
+            double tempoMs  = (fim - inicio) / 1_000_000.0;
+
             System.out.println(
                     "Tempo de leitura e montagem das listas: "
-                            + (fim - inicio)
-                            + " ns"
+                            + tempoMs
+                            + " ms"
             );
 
         } catch (IOException e) {
@@ -232,10 +234,12 @@ public class Main {
             );
         }
 
+        double tempoMs  = (fim - inicio) / 1_000_000.0;
+
         System.out.println(
                 "Tempo da busca: "
-                        + (fim - inicio)
-                        + " ns"
+                        + tempoMs
+                        + " ms"
         );
     }
 
@@ -267,10 +271,12 @@ public class Main {
             );
         }
 
+        double tempoMs  = (fim - inicio) / 1_000_000.0;
+
         System.out.println(
                 "Tempo da busca: "
-                        + (fim - inicio)
-                        + " ns"
+                        + tempoMs
+                        + " ms"
         );
     }
 
@@ -314,10 +320,12 @@ public class Main {
             );
         }
 
+        double tempoMs  = (fim - inicio) / 1_000_000.0;
+
         System.out.println(
                 "Tempo da remoção: "
-                        + (fim - inicio)
-                        + " ns"
+                        + tempoMs
+                        + " ms"
         );
     }
 
