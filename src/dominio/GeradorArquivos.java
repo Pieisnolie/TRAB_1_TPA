@@ -9,17 +9,20 @@ public class GeradorArquivos {
 
     public static void main(String[] args) {
 
-        gerarArquivo(100000);
-        gerarArquivo(200000);
-        gerarArquivo(400000);
-        gerarArquivo(800000);
+        // gerarArquivo(100000);
+        // gerarArquivo(200000);
+        // gerarArquivo(400000);
+        // gerarArquivo(800000);
+        // gerarArquivo(25000);
+         gerarArquivo(50000);
+        // gerarArquivo(75000);
 
         System.out.println("Arquivos gerados com sucesso!");
     }
 
     private static void gerarArquivo(int quantidade) {
 
-        String nomeArquivo = "entrada" + quantidade + ".txt";
+        String nomeArquivo = "entrada" +  quantidade + ".txt";
 
         try (BufferedWriter escritor =
                      Files.newBufferedWriter(Path.of(nomeArquivo))) {

@@ -78,6 +78,27 @@ Ana;27933333333
 
 Linhas vazias são ignoradas e telefones duplicados não são cadastrados.
 
+## Gerador de Arquivos
+
+O projeto possui a classe GeradorArquivos, utilizada para gerar arquivos com grandes quantidades de contatos para testes de desempenho.
+
+A quantidade de contatos é definida no método main() da classe GeradorArquivos. Por exemplo:
+```text
+gerarArquivo(50000);
+```
+A execução desse comando gera um arquivo chamado:
+```text
+entrada50000.txt
+```
+Os contatos são gerados automaticamente seguindo o formato:
+```text
+Contato000001;27900000001
+Contato000002;27900000002
+Contato000003;27900000003
+```
+O arquivo gerado possui o nome entrada<N>.txt, onde N representa a quantidade de contatos.
+
+Para utilizar o arquivo no sistema principal, é necessário renomear o arquivo gerado para entrada.txt.
 ## Execução
 
 Ao iniciar o programa, será perguntado se as listas devem ser ordenadas:
