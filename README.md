@@ -118,7 +118,3 @@ Ao selecionar a opção `0`, o programa informa a quantidade total de contatos c
 O sistema utiliza diferentes critérios para trabalhar com os contatos. Os contatos podem ser organizados e pesquisados utilizando o **nome** ou o **telefone** como referência.
 
 Para a ordenação por nome, é utilizado um comparador que compara os nomes dos contatos. Para a ordenação por telefone, é utilizado um comparador que compara os números de telefone.
-
-## Autores
-
-Projeto desenvolvido como parte da disciplina de **Técnicas de Programação e Algoritmos (TPA)**.
