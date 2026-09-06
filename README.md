@@ -1,82 +1,94 @@
-Sistema de Gerenciamento de Contatos
+# Sistema de Gerenciamento de Contatos
 
-Projeto em Java para gerenciamento de contatos utilizando listas encadeadas e diferentes critérios de busca.
+Projeto em **Java** para gerenciamento de contatos utilizando listas encadeadas e diferentes critérios de busca.
 
-Funcionalidades
+## Funcionalidades
 
 O sistema permite:
 
-Carregar contatos a partir de um arquivo entrada.txt.
-Adicionar novos contatos.
-Pesquisar contatos por nome.
-Pesquisar contatos por telefone.
-Remover contatos pelo telefone.
-Alterar nome e telefone de contatos existentes.
-Impedir o cadastro de telefones duplicados.
-Utilizar listas ordenadas ou não ordenadas.
-Exibir o tempo de execução das operações de leitura, busca e remoção.
-Exibir a quantidade total de contatos ao encerrar o programa.
-Estrutura
+* Carregar contatos a partir de um arquivo `entrada.txt`.
+* Adicionar novos contatos.
+* Pesquisar contatos por nome.
+* Pesquisar contatos por telefone.
+* Remover contatos pelo telefone.
+* Alterar nome e telefone de contatos existentes.
+* Impedir o cadastro de telefones duplicados.
+* Utilizar listas ordenadas ou não ordenadas.
+* Exibir o tempo de execução das operações de leitura, busca e remoção.
+* Exibir a quantidade total de contatos ao encerrar o programa.
 
-O projeto utiliza uma estrutura de lista encadeada (ListaEncadeada) através da interface IColecao.
+## Estrutura
+
+O projeto utiliza uma estrutura de **lista encadeada (`ListaEncadeada`)** através da interface `IColecao`.
 
 São mantidas duas estruturas para os contatos:
 
-Uma lista organizada por nome.
-Uma lista organizada por telefone.
+* Uma lista organizada por **nome**.
+* Uma lista organizada por **telefone**.
 
-Também é utilizado um HashSet para controlar telefones já cadastrados e evitar duplicidades.
+Também é utilizado um `HashSet` para controlar os telefones já cadastrados e evitar duplicidades.
 
-Dependências
+## Dependências
 
 O projeto utiliza apenas recursos padrão do Java e as classes desenvolvidas no próprio projeto.
 
 É necessário ter:
 
-Java JDK 11 ou superior.
+* **Java JDK 11 ou superior**.
 
 Não são necessárias bibliotecas externas.
 
-Instalação
+## Instalação
 
-Clone o repositório:
+### 1. Clone o repositório
 
-git clone <URL_DO_REPOSITORIO>
+```bash
+git clone https://github.com/Pieisnolie/TRAB_1_TPA.git
+```
 
+### 2. Entre na pasta do projeto
 
-Entre na pasta do projeto:
+```bash
+cd TRAB_1_TPA
+```
 
-cd <NOME_DO_PROJETO>
-
+### 3. Compile o projeto
 
 Compile o projeto utilizando o JDK configurado no ambiente.
 
-Caso esteja utilizando uma IDE, basta importar o projeto e executar a classe Main.
+Caso esteja utilizando uma IDE, basta importar o projeto e executar a classe `Main`.
 
-Arquivo de entrada
+## Arquivo de Entrada
 
-Para utilizar a opção de carregamento de dados, o programa espera encontrar um arquivo chamado entrada.txt no diretório de execução.
+Para utilizar a opção de carregamento de dados, o programa espera encontrar um arquivo chamado `entrada.txt` no diretório de execução.
 
-Cada linha deve conter um nome e um telefone separados por ;.
+Cada linha deve conter um **nome** e um **telefone**, separados por `;`.
 
-Exemplo:
+### Exemplo de `entrada.txt`
 
-João Silva;11999999999
-Maria Souza;11888888888
-Pedro Santos;11777777777
-
+```text
+Gabriel;27999999999
+Dominic;27988888888
+Marcos;27977777777
+Ryan;27966666666
+Lucas;27955555555
+Bruno;27944444444
+Ana;27933333333
+```
 
 Linhas vazias são ignoradas e telefones duplicados não são cadastrados.
 
-Execução
+## Execução
 
 Ao iniciar o programa, será perguntado se as listas devem ser ordenadas:
 
+```text
 Lista ordenada? (S/N)
-
+```
 
 Em seguida, será apresentado o menu principal:
 
+```text
 ===== MENU =====
 1 - Carregar dados de arquivo
 2 - Adicionar contato
@@ -85,15 +97,28 @@ Em seguida, será apresentado o menu principal:
 5 - Remover contato por telefone
 6 - Alterar dados de contato
 0 - Sair
+```
 
+Ao selecionar a opção `0`, o programa informa a quantidade total de contatos cadastrados antes de ser encerrado.
 
-Ao selecionar a opção 0, o programa informa a quantidade total de contatos cadastrados antes de ser encerrado.
+## Tecnologias
 
-Tecnologias
-Java
-Estrutura de dados: Lista Encadeada
-HashSet
-Scanner
-BufferedReader
-Files e Path
-Comparadores para ordenação por nome e telefone
+* **Java**
+* **Lista Encadeada**
+* **HashSet**
+* **Scanner**
+* **BufferedReader**
+* **Files**
+* **Path**
+* **Comparator**
+* Comparadores para ordenação por **nome** e **telefone**
+
+## Organização dos Dados
+
+O sistema utiliza diferentes critérios para trabalhar com os contatos. Os contatos podem ser organizados e pesquisados utilizando o **nome** ou o **telefone** como referência.
+
+Para a ordenação por nome, é utilizado um comparador que compara os nomes dos contatos. Para a ordenação por telefone, é utilizado um comparador que compara os números de telefone.
+
+## Autores
+
+Projeto desenvolvido como parte da disciplina de **Técnicas de Programação e Algoritmos (TPA)**.
