@@ -7,7 +7,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.HashSet;
 import java.util.Scanner;
+import java.util.Set;
 
 public class Main {
 
@@ -15,6 +17,9 @@ public class Main {
 
     private static IColecao<Contato> contatosPorNome;
     private static IColecao<Contato> contatosPorTelefone;
+
+    private static final Set<String> telefonesCadastrados =
+            new HashSet<>();
 
     public static void main(String[] args) {
 
@@ -123,21 +128,18 @@ public class Main {
                 String[] dados = linha.split(";", 2);
 
                 if (dados.length != 2) {
+
                     System.out.println(
                             "Linha inválida ignorada: " + linha
                     );
+
                     continue;
                 }
 
                 String nome = dados[0].trim();
                 String telefone = dados[1].trim();
 
-                Contato contatoExistente =
-                        contatosPorTelefone.pesquisar(
-                                new Contato("", telefone)
-                        );
-
-                if (contatoExistente != null) {
+                if (telefonesCadastrados.contains(telefone)) {
                     continue;
                 }
 
@@ -146,6 +148,8 @@ public class Main {
 
                 contatosPorNome.adicionar(contato);
                 contatosPorTelefone.adicionar(contato);
+
+                telefonesCadastrados.add(telefone);
 
                 quantidadeAdicionada++;
             }
@@ -181,12 +185,7 @@ public class Main {
         System.out.print("Telefone: ");
         String telefone = entrada.nextLine();
 
-        Contato contatoExistente =
-                contatosPorTelefone.pesquisar(
-                        new Contato("", telefone)
-                );
-
-        if (contatoExistente != null) {
+        if (telefonesCadastrados.contains(telefone)) {
 
             System.out.println(
                     "Já existe um contato com esse telefone."
@@ -201,7 +200,11 @@ public class Main {
         contatosPorNome.adicionar(novoContato);
         contatosPorTelefone.adicionar(novoContato);
 
-        System.out.println("Contato adicionado com sucesso.");
+        telefonesCadastrados.add(telefone);
+
+        System.out.println(
+                "Contato adicionado com sucesso."
+        );
     }
 
 
@@ -222,7 +225,9 @@ public class Main {
 
         if (encontrado == null) {
 
-            System.out.println("Contato não existe.");
+            System.out.println(
+                    "Contato não existe."
+            );
 
         } else {
 
@@ -257,7 +262,9 @@ public class Main {
 
         if (encontrado == null) {
 
-            System.out.println("Contato não existe.");
+            System.out.println(
+                    "Contato não existe."
+            );
 
         } else {
 
@@ -288,7 +295,10 @@ public class Main {
 
         if (encontrado == null) {
 
-            System.out.println("Contato não existe.");
+            System.out.println(
+                    "Contato não existe."
+            );
+
             return;
         }
 
@@ -302,6 +312,8 @@ public class Main {
         if (removido) {
 
             contatosPorNome.remover(encontrado);
+
+            telefonesCadastrados.remove(telefone);
 
             System.out.println(
                     "Contato excluído com sucesso."
@@ -334,7 +346,10 @@ public class Main {
 
         if (contato == null) {
 
-            System.out.println("Contato não existe.");
+            System.out.println(
+                    "Contato não existe."
+            );
+
             return;
         }
 
@@ -349,13 +364,8 @@ public class Main {
         System.out.print("Novo telefone: ");
         String novoTelefone = entrada.nextLine();
 
-        Contato contatoMesmoTelefone =
-                contatosPorTelefone.pesquisar(
-                        new Contato("", novoTelefone)
-                );
-
-        if (contatoMesmoTelefone != null
-                && contatoMesmoTelefone != contato) {
+        if (!novoTelefone.equals(contato.getTelefone())
+                && telefonesCadastrados.contains(novoTelefone)) {
 
             System.out.println(
                     "Já existe outro contato com esse telefone."
@@ -363,6 +373,9 @@ public class Main {
 
             return;
         }
+
+        String telefoneAntigo =
+                contato.getTelefone();
 
         contatosPorNome.remover(contato);
         contatosPorTelefone.remover(contato);
@@ -372,6 +385,9 @@ public class Main {
 
         contatosPorNome.adicionar(contato);
         contatosPorTelefone.adicionar(contato);
+
+        telefonesCadastrados.remove(telefoneAntigo);
+        telefonesCadastrados.add(novoTelefone);
 
         System.out.println(
                 "Contato alterado com sucesso."
