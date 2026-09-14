@@ -26,6 +26,8 @@ public class Contato {
         this.telefone = telefone;
     }
 
+
+    // Retorna o contato no formato nome - telefone
     @Override
     public String toString() {
         return nome + "-" + telefone;
