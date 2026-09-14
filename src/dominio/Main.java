@@ -13,11 +13,16 @@ import java.util.Set;
 
 public class Main {
 
+    // Scanner para ler as entradas do usuário
     private static final Scanner entrada = new Scanner(System.in);
 
+    // Coleção de contatos organizada/ordenada por nome
     private static IColecao<Contato> contatosPorNome;
+
+    // Coleção de contatos organizada/ordenada por telefone
     private static IColecao<Contato> contatosPorTelefone;
 
+    // Conjunto auxiliar para checar rapidamente se um telefone já está cadastrado
     private static final Set<String> telefonesCadastrados =
             new HashSet<>();
 
@@ -28,12 +33,14 @@ public class Main {
 
         boolean ordenada = resposta.equalsIgnoreCase("S");
 
+        // Inicializa a lista de contatos comparando por nome
         contatosPorNome =
                 new ListaEncadeada<Contato>(
                         new ComparadorContatoPorNome(),
                         ordenada
                 );
 
+        // Inicializa a lista de contatos comparando por telefone
         contatosPorTelefone =
                 new ListaEncadeada<Contato>(
                         new ComparadorContatoPorTelefone(),
@@ -89,6 +96,7 @@ public class Main {
 
         } while (opcao != 0);
 
+        // Libera o recurso do Scanner ao final da execução
         entrada.close();
     }
 
@@ -114,6 +122,7 @@ public class Main {
 
         int quantidadeAdicionada = 0;
 
+        // try-with-resources: garante o fechamento automático do BufferedReader
         try (BufferedReader leitor =
                      Files.newBufferedReader(Path.of("entrada.txt"))) {
 
@@ -121,12 +130,15 @@ public class Main {
 
             while ((linha = leitor.readLine()) != null) {
 
+                // Ignora linhas vazias
                 if (linha.isBlank()) {
                     continue;
                 }
 
+                // Divide a linha em no máximo 2 partes: nome e telefone
                 String[] dados = linha.split(";", 2);
 
+                // Linha que não tem exatamente nome e telefone é descartada
                 if (dados.length != 2) {
 
                     System.out.println(
@@ -139,13 +151,14 @@ public class Main {
                 String nome = dados[0].trim();
                 String telefone = dados[1].trim();
 
+                // Evita cadastrar telefone duplicado
                 if (telefonesCadastrados.contains(telefone)) {
                     continue;
                 }
 
-                Contato contato =
-                        new Contato(nome, telefone);
+                Contato contato = new Contato(nome, telefone);
 
+                // Adiciona o mesmo contato nas duas listas
                 contatosPorNome.adicionar(contato);
                 contatosPorTelefone.adicionar(contato);
 
@@ -156,25 +169,16 @@ public class Main {
 
             long fim = System.nanoTime();
 
-            System.out.println(
-                    quantidadeAdicionada
-                            + " contatos carregados."
-            );
+            System.out.println(quantidadeAdicionada + " contatos carregados.");
 
+            // Converte nanossegundos para milissegundos
             double tempoMs  = (fim - inicio) / 1_000_000.0;
 
-            System.out.println(
-                    "Tempo de leitura e montagem das listas: "
-                            + tempoMs
-                            + " ms"
-            );
+            System.out.println("Tempo de leitura e montagem das listas: " + tempoMs + " ms");
 
         } catch (IOException e) {
-
-            System.out.println(
-                    "Erro ao ler entrada.txt: "
-                            + e.getMessage()
-            );
+            // Trata erro de leitura (ex: arquivo não encontrado)
+            System.out.println("Erro ao ler entrada.txt: " + e.getMessage());
         }
     }
 
@@ -189,24 +193,19 @@ public class Main {
 
         if (telefonesCadastrados.contains(telefone)) {
 
-            System.out.println(
-                    "Já existe um contato com esse telefone."
-            );
+            System.out.println("Já existe um contato com esse telefone.");
 
             return;
         }
 
-        Contato novoContato =
-                new Contato(nome, telefone);
+        Contato novoContato = new Contato(nome, telefone);
 
         contatosPorNome.adicionar(novoContato);
         contatosPorTelefone.adicionar(novoContato);
 
         telefonesCadastrados.add(telefone);
 
-        System.out.println(
-                "Contato adicionado com sucesso."
-        );
+        System.out.println("Contato adicionado com sucesso.");
     }
 
 
@@ -215,37 +214,26 @@ public class Main {
         System.out.print("Nome do contato: ");
         String nome = entrada.nextLine();
 
-        Contato chave =
-                new Contato(nome, "");
+        // Cria um contato "chave" apenas com o nome, usado só para a busca
+        Contato chave = new Contato(nome, "");
 
         long inicio = System.nanoTime();
 
-        Contato encontrado =
-                contatosPorNome.pesquisar(chave);
+        Contato encontrado = contatosPorNome.pesquisar(chave);
 
         long fim = System.nanoTime();
 
         if (encontrado == null) {
 
-            System.out.println(
-                    "Contato não existe."
-            );
+            System.out.println("Contato não existe.");
 
         } else {
-
-            System.out.println(
-                    "Telefone: "
-                            + encontrado.getTelefone()
-            );
+            System.out.println("Telefone: " + encontrado.getTelefone());
         }
 
         double tempoMs  = (fim - inicio) / 1_000_000.0;
 
-        System.out.println(
-                "Tempo da busca: "
-                        + tempoMs
-                        + " ms"
-        );
+        System.out.println("Tempo da busca: " + tempoMs + " ms");
     }
 
 
@@ -254,37 +242,27 @@ public class Main {
         System.out.print("Telefone do contato: ");
         String telefone = entrada.nextLine();
 
-        Contato chave =
-                new Contato("", telefone);
+        // Cria um contato "chave" apenas com o telefone, usado só para a busca
+        Contato chave = new Contato("", telefone);
 
         long inicio = System.nanoTime();
 
-        Contato encontrado =
-                contatosPorTelefone.pesquisar(chave);
+        Contato encontrado = contatosPorTelefone.pesquisar(chave);
 
         long fim = System.nanoTime();
 
         if (encontrado == null) {
 
-            System.out.println(
-                    "Contato não existe."
-            );
+            System.out.println("Contato não existe.");
 
         } else {
 
-            System.out.println(
-                    "Nome: "
-                            + encontrado.getNome()
-            );
+            System.out.println("Nome: " + encontrado.getNome());
         }
 
         double tempoMs  = (fim - inicio) / 1_000_000.0;
 
-        System.out.println(
-                "Tempo da busca: "
-                        + tempoMs
-                        + " ms"
-        );
+        System.out.println("Tempo da busca: " + tempoMs + " ms");
     }
 
 
@@ -293,52 +271,40 @@ public class Main {
         System.out.print("Telefone do contato: ");
         String telefone = entrada.nextLine();
 
-        Contato chave =
-                new Contato("", telefone);
+        Contato chave = new Contato("", telefone);
 
-        Contato encontrado =
-                contatosPorTelefone.pesquisar(chave);
+        // Primeiro verifica se o contato existe antes de tentar remover
+        Contato encontrado = contatosPorTelefone.pesquisar(chave);
 
         if (encontrado == null) {
 
-            System.out.println(
-                    "Contato não existe."
-            );
+            System.out.println("Contato não existe.");
 
             return;
         }
 
         long inicio = System.nanoTime();
 
-        boolean removido =
-                contatosPorTelefone.remover(chave);
+        boolean removido = contatosPorTelefone.remover(chave);
 
         long fim = System.nanoTime();
 
         if (removido) {
 
+            // Remove também da lista por nome, usando o objeto já encontrado
             contatosPorNome.remover(encontrado);
 
             telefonesCadastrados.remove(telefone);
 
-            System.out.println(
-                    "Contato excluído com sucesso."
-            );
+            System.out.println("Contato excluído com sucesso.");
 
         } else {
-
-            System.out.println(
-                    "Contato não existia."
-            );
+            System.out.println("Contato não existia.");
         }
 
         double tempoMs  = (fim - inicio) / 1_000_000.0;
 
-        System.out.println(
-                "Tempo da remoção: "
-                        + tempoMs
-                        + " ms"
-        );
+        System.out.println("Tempo da remoção: " + tempoMs + " ms");
     }
 
 
@@ -347,24 +313,16 @@ public class Main {
         System.out.print("Nome do contato: ");
         String nome = entrada.nextLine();
 
-        Contato contato =
-                contatosPorNome.pesquisar(
-                        new Contato(nome, "")
-                );
+        Contato contato = contatosPorNome.pesquisar(new Contato(nome, ""));
 
         if (contato == null) {
 
-            System.out.println(
-                    "Contato não existe."
-            );
+            System.out.println("Contato não existe.");
 
             return;
         }
 
-        System.out.println(
-                "Telefone atual: "
-                        + contato.getTelefone()
-        );
+        System.out.println("Telefone atual: " + contato.getTelefone());
 
         System.out.print("Novo nome: ");
         String novoNome = entrada.nextLine();
@@ -372,18 +330,17 @@ public class Main {
         System.out.print("Novo telefone: ");
         String novoTelefone = entrada.nextLine();
 
-        if (!novoTelefone.equals(contato.getTelefone())
-                && telefonesCadastrados.contains(novoTelefone)) {
+        // Se o telefone for alterado, verifica se o novo já está em uso
+        if (!novoTelefone.equals(contato.getTelefone()) && telefonesCadastrados.contains(novoTelefone)) {
 
-            System.out.println(
-                    "Já existe outro contato com esse telefone."
-            );
+            System.out.println("Já existe outro contato com esse telefone.");
 
             return;
         }
 
-        String telefoneAntigo =
-                contato.getTelefone();
+        // Remove o contato das duas listas antes de alterar seus dados,
+        // pois a posição dele nelas depende dos valores atuais
+        String telefoneAntigo = contato.getTelefone();
 
         contatosPorNome.remover(contato);
         contatosPorTelefone.remover(contato);
@@ -391,14 +348,14 @@ public class Main {
         contato.setNome(novoNome);
         contato.setTelefone(novoTelefone);
 
+        // Reinsere o contato já atualizado, na posição correta
         contatosPorNome.adicionar(contato);
         contatosPorTelefone.adicionar(contato);
 
+        // Atualiza o conjunto de telefones cadastrados
         telefonesCadastrados.remove(telefoneAntigo);
         telefonesCadastrados.add(novoTelefone);
 
-        System.out.println(
-                "Contato alterado com sucesso."
-        );
+        System.out.println("Contato alterado com sucesso.");
     }
 }
